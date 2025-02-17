@@ -42,21 +42,31 @@
         document.getElementById('phone-result').textContent = phone;
         document.getElementById('postalCode-result').textContent = postalCode;
     </script>
+<script>
+    const saveAsImageButton = document.getElementById('saveAsImage');
 
-    <script>
-        const saveAsImageButton = document.getElementById('saveAsImage');
+    saveAsImageButton.addEventListener('click', () => {
+        const dpi = 300; // تنظیم DPI
+        const cmToInch = 2.54;
+        const widthInCm = 13; // عرض به سانتی متر
+        const heightInCm = 9; // ارتفاع به سانتی متر
+        const widthInPixels = (widthInCm / cmToInch) * dpi;
+        const heightInPixels = (heightInCm / cmToInch) * dpi;
 
-        saveAsImageButton.addEventListener('click', () => {
-            html2canvas(document.getElementById('recipientInfo'), {scale: 2}).then(canvas => { // Increased scale for better resolution
-                const imgData = canvas.toDataURL('image/jpeg'); // Changed to JPEG for smaller file size
-                const link = document.createElement('a');
-                link.download = 'shipping_info.jpg'; // Changed file name
-                link.href = imgData;
-                link.click();
-            });
+        html2canvas(document.getElementById('recipientInfo'), {
+            scale: dpi / 96, // مقیاس بر اساس DPI
+            width: widthInPixels,
+            height: heightInPixels
+        }).then(canvas => {
+            const imgData = canvas.toDataURL('image/jpeg'); // تبدیل به JPEG
+            const link = document.createElement('a');
+            link.download = 'shipping_info.jpg'; // نام فایل
+            link.href = imgData;
+            link.click();
         });
-    </script>
-
+    });
+</script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 </body>
