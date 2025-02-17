@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتایج اطلاعات پستی</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>اطلاعات فرستنده</h1>
+    <div class="information-box">
+        <p>
+            نام: سارا سایبانی<br>
+            آدرس: هرمزگان بندرعباس رسالت شمالی شهرک پرواز کوچه نشاط بلوک 40<br>
+            تلفن: 09362366658<br>
+            کد پستی: 7915896835
+        </p>
+    </div>
+
+    <h1>اطلاعات گیرنده</h1>
+    <div id="recipientInfo" class="information-results">
+        <p>
+            نام: <span id="name-result"></span><br>
+            آدرس: <span id="address-result"></span><br>
+            تلفن: <span id="phone-result"></span><br>
+            کد پستی: <span id="postalCode-result"></span>
+        </p>
+    </div>
+
+    <button id="saveAsImage" class="no-print">ذخیره تصویر</button> 
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+        const address = urlParams.get('address');
+        const phone = urlParams.get('phone');
+        const postalCode = urlParams.get('postalCode');
+
+        document.getElementById('name-result').textContent = name;
+        document.getElementById('address-result').textContent = address;
+        document.getElementById('phone-result').textContent = phone;
+        document.getElementById('postalCode-result').textContent = postalCode;
+    </script>
+
+    <script>
+        const saveAsImageButton = document.getElementById('saveAsImage');
+
+        saveAsImageButton.addEventListener('click', () => {
+            html2canvas(document.getElementById('recipientInfo'), {scale: 2}).then(canvas => { // Increased scale for better resolution
+                const imgData = canvas.toDataURL('image/jpeg'); // Changed to JPEG for smaller file size
+                const link = document.createElement('a');
+                link.download = 'shipping_info.jpg'; // Changed file name
+                link.href = imgData;
+                link.click();
+            });
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+</body>
+</html>
